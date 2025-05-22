@@ -1,0 +1,610 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Test.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+#include &lt;gmock/gmock.h&gt;
+#include &lt;gtest/gtest.h&gt;
+
+#include "fix_keyword.h"
+
+int main()
+<span style = "background-color:#dfd">{
+	testing::InitGoogleMock();
+	return RUN_ALL_TESTS();
+}</span>
+
+class FixKeywordFixture : public ::testing::Test {
+public:
+<span style = "background-color:#dfd">	FixKeywordFixture() {
+	}</span>
+
+<span style = "background-color:#dfd">	~FixKeywordFixture() {
+	}</span>
+	FixKeyword fixKeyword;
+
+protected:
+<span style = "background-color:#dfd">	virtual void SetUp() override {
+	}</span>
+
+<span style = "background-color:#dfd">	virtual void TearDown() override {
+	}</span>
+};
+
+<span style = "background-color:#dfd">TEST_F(FixKeywordFixture, InputTest)
+{
+	EXPECT_NO_THROW(fixKeyword.input("./keyword_weekday_500.txt"));
+	EXPECT_NO_THROW(fixKeyword.input("./myText.txt"));
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(FixKeywordFixture, SimilarTest)
+{
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("wateqq", "monday"), "wateqq");
+	EXPECT_EQ(fixKeyword.AddKeyword("wateq", "monday"), "wateqq");
+	EXPECT_EQ(fixKeyword.AddKeyword("wateq", "monday"), "wateqq");
+	EXPECT_EQ(fixKeyword.AddKeyword("wateq", "monday"), "wateqq");
+	EXPECT_EQ(fixKeyword.AddKeyword("wateq", "monday"), "wateqq");
+	EXPECT_EQ(fixKeyword.AddKeyword("waterq", "monday"), "wateqq");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("waterq", "monday"), "wateqq");
+	EXPECT_EQ(fixKeyword.AddKeyword("waterz", "monday"), "water");
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(FixKeywordFixture, KeywordFailTest)
+{
+	EXPECT_EQ(fixKeyword.AddKeyword("water", ""), "");
+	EXPECT_EQ(fixKeyword.AddKeyword("", "monday"), "");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "myday"), "");
+	EXPECT_EQ(fixKeyword.AddKeyword("", ""), "");
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(FixKeywordFixture, RebaseTest)
+{
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "monday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "wednesday"), "beer");
+	for (int i = 0; i &lt; 201; i++)
+		fixKeyword.AddKeyword("bread", "thursday"), "bread";
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "monday"), "orange");
+	FixKeyword::PointOfKeyword myDayNamePointOfKeyword = fixKeyword.GetDayNamePointOfKeyword(0, 0);
+	EXPECT_EQ(myDayNamePointOfKeyword.keyword, "orange");
+	EXPECT_EQ(myDayNamePointOfKeyword.point, 10);</span>
+
+<span style = "background-color:#dfd">	for (int i = 0; i &lt; 300; i++)
+		fixKeyword.AddKeyword("bread", "thursday"), "bread";</span>
+
+<span style = "background-color:#dfd">	myDayNamePointOfKeyword = fixKeyword.GetDayNamePointOfKeyword(0, 0);
+	EXPECT_EQ(myDayNamePointOfKeyword.keyword, "orange");
+	EXPECT_EQ(myDayNamePointOfKeyword.point, 2);</span>
+
+<span style = "background-color:#dfd">	myDayNamePointOfKeyword = fixKeyword.GetDayNamePointOfKeyword(0, 1);
+	EXPECT_EQ(myDayNamePointOfKeyword.keyword, "restaurant");
+	EXPECT_EQ(myDayNamePointOfKeyword.point, 1);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(FixKeywordFixture, GeneralTest)
+{
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "tuesday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "tuesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "saturday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "tuesday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "monday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "thursday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "wednesday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "wednesday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "tuesday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "saturday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "sunday"), "orange");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "friday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "tuesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "friday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "sunday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "friday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "saturday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "saturday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "sunday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("lettuce", "sunday"), "lettuce");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "friday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "sunday"), "orange");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "wednesday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "saturday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "friday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "friday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "tuesday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "monday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "tuesday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "friday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "sunday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "wednesday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("onion", "friday"), "onion");
+	EXPECT_EQ(fixKeyword.AddKeyword("keyboard", "monday"), "keyboard");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "tuesday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "friday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "monday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "sunday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "tuesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "thursday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("pasta", "friday"), "pasta");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "thursday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("knife", "tuesday"), "knife");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "saturday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("cat", "saturday"), "cat");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "thursday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "monday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "tuesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "wednesday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "monday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "monday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "friday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("rice", "sunday"), "rice");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "saturday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "friday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "wednesday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "wednesday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "saturday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "tuesday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "sunday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "tuesday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "saturday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "tuesday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "friday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "sunday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("pork", "thursday"), "pork");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "sunday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "saturday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "wednesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "thursday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "thursday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("bottle", "wednesday"), "bottle");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "tuesday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "sunday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "friday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("pork", "saturday"), "pork");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "wednesday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "monday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "monday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "monday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "tuesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "sunday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "wednesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "friday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("pork", "wednesday"), "pork");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "tuesday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "tuesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "friday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("pork", "sunday"), "pork");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "wednesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "monday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "wednesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "tuesday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("car", "tuesday"), "car");
+	EXPECT_EQ(fixKeyword.AddKeyword("sandwich", "sunday"), "sandwich");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "wednesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "wednesday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "friday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "thursday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "sunday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "saturday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "wednesday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "monday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "monday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "thursday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "thursday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("laptop", "thursday"), "laptop");
+	EXPECT_EQ(fixKeyword.AddKeyword("cat", "saturday"), "cat");
+	EXPECT_EQ(fixKeyword.AddKeyword("knife", "tuesday"), "knife");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "tuesday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "tuesday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "wednesday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "monday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "sunday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "sunday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("pork", "thursday"), "pork");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "sunday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "saturday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "thursday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "friday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "friday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "saturday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "saturday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "friday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "monday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "thursday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "wednesday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "thursday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("car", "friday"), "car");
+	EXPECT_EQ(fixKeyword.AddKeyword("carrot", "friday"), "carrot");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "wednesday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "tuesday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "sunday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "thursday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "wednesday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "tuesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "monday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("sandwich", "sunday"), "sandwich");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "saturday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "tuesday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "saturday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "wednesday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "wednesday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "sunday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "saturday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "saturday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("keyboard", "thursday"), "keyboard");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "monday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "tuesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("keyboard", "saturday"), "keyboard");
+	EXPECT_EQ(fixKeyword.AddKeyword("knife", "wednesday"), "knife");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "friday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "wednesday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "wednesday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "sunday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "wednesday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("pasta", "saturday"), "pasta");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "sunday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "tuesday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "friday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "friday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "thursday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "friday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "tuesday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "tuesday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("knife", "thursday"), "knife");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "thursday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "saturday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "monday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "monday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "tuesday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("onion", "saturday"), "onion");
+	EXPECT_EQ(fixKeyword.AddKeyword("onion", "saturday"), "onion");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "sunday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "monday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("lettuce", "wednesday"), "lettuce");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "monday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "sunday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "sunday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("rice", "monday"), "rice");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "friday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("onion", "thursday"), "onion");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "friday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "saturday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "sunday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("pork", "thursday"), "pork");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "wednesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "thursday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "thursday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("cat", "tuesday"), "cat");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "sunday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "friday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "thursday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "thursday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "thursday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("sandwich", "tuesday"), "sandwich");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "sunday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "friday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "sunday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "monday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "thursday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "tuesday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "monday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "monday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "tuesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("bottle", "thursday"), "bottle");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "sunday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "friday"), "orange");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "tuesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "tuesday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "tuesday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "friday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "wednesday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "wednesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "monday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "thursday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "saturday"), "orange");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "friday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "wednesday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "tuesday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("carrot", "sunday"), "carrot");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "friday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "tuesday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "tuesday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "friday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "thursday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "thursday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "sunday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "monday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "friday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "tuesday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("sandwich", "saturday"), "sandwich");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "saturday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "tuesday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "saturday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "tuesday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "friday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "tuesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "saturday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "wednesday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "saturday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "sunday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "sunday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "wednesday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "friday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "thursday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("lettuce", "thursday"), "lettuce");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "thursday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "monday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "sunday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "tuesday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "thursday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "tuesday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "wednesday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "wednesday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "thursday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "tuesday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "sunday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("cat", "thursday"), "cat");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "thursday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "saturday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "saturday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "sunday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "thursday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "friday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "thursday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "saturday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "thursday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "sunday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("lettuce", "friday"), "lettuce");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "wednesday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "friday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "monday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "friday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("sandwich", "monday"), "sandwich");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "saturday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "tuesday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "sunday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "sunday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "saturday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "wednesday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "saturday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "sunday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "thursday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "monday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "friday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "friday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "friday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "wednesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "saturday"), "orange");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "friday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "monday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "monday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "thursday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "tuesday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "thursday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "tuesday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "wednesday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "thursday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "wednesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "friday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "friday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "friday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "tuesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "monday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "monday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("lettuce", "tuesday"), "lettuce");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "tuesday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "saturday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "sunday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "thursday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "wednesday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "saturday"), "orange");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "sunday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "thursday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "wednesday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "friday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "sunday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "thursday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "wednesday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("car", "wednesday"), "car");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "sunday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "tuesday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "sunday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "wednesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("rice", "wednesday"), "rice");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "saturday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "friday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "sunday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "thursday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("keyboard", "friday"), "keyboard");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "saturday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "tuesday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("sandwich", "tuesday"), "sandwich");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "saturday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "saturday"), "orange");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("lettuce", "friday"), "lettuce");
+	EXPECT_EQ(fixKeyword.AddKeyword("car", "wednesday"), "car");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "thursday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("onion", "monday"), "onion");
+	EXPECT_EQ(fixKeyword.AddKeyword("keyboard", "monday"), "keyboard");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "tuesday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "sunday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "thursday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "monday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "wednesday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "wednesday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "tuesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "tuesday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "friday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "thursday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "friday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "sunday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "sunday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "sunday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "friday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("lettuce", "thursday"), "lettuce");
+	EXPECT_EQ(fixKeyword.AddKeyword("keyboard", "friday"), "keyboard");
+	EXPECT_EQ(fixKeyword.AddKeyword("car", "sunday"), "car");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "saturday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "saturday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "sunday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "thursday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "friday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("rice", "monday"), "rice");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "sunday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "saturday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "wednesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "thursday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "wednesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "monday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "sunday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("pasta", "tuesday"), "pasta");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "sunday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "tuesday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("pork", "friday"), "pork");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "monday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("onion", "saturday"), "onion");
+	EXPECT_EQ(fixKeyword.AddKeyword("sandwich", "saturday"), "sandwich");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "saturday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "wednesday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "saturday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "friday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "thursday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "sunday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "monday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "sunday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "friday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "wednesday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "wednesday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "wednesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "saturday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("knife", "saturday"), "knife");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "tuesday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("pasta", "tuesday"), "pasta");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "friday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("knife", "monday"), "knife");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "sunday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "saturday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "saturday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("rice", "thursday"), "rice");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "tuesday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "thursday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "friday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "wednesday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "monday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "thursday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "thursday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "monday"), "orange");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "tuesday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "saturday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "wednesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "saturday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("dog", "sunday"), "dog");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "friday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "saturday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "tuesday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "monday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "saturday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "monday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "wednesday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "tuesday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("car", "saturday"), "car");
+	EXPECT_EQ(fixKeyword.AddKeyword("bike", "tuesday"), "bike");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "tuesday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "friday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "sunday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "monday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "saturday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "thursday"), "bread");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "wednesday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "monday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("onion", "tuesday"), "onion");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "sunday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("sandwich", "thursday"), "sandwich");
+	EXPECT_EQ(fixKeyword.AddKeyword("samsung", "tuesday"), "samsung");
+	EXPECT_EQ(fixKeyword.AddKeyword("lettuce", "wednesday"), "lettuce");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "friday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "monday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "monday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "saturday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "friday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "wednesday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("camera", "thursday"), "camera");
+	EXPECT_EQ(fixKeyword.AddKeyword("keyboard", "sunday"), "keyboard");
+	EXPECT_EQ(fixKeyword.AddKeyword("cat", "wednesday"), "cat");
+	EXPECT_EQ(fixKeyword.AddKeyword("music", "wednesday"), "music");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "wednesday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "friday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "thursday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "sunday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "wednesday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "saturday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("keyboard", "tuesday"), "keyboard");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "thursday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "saturday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "wednesday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "friday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("knife", "sunday"), "knife");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "wednesday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "tuesday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "thursday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("potato", "monday"), "potato");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "monday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("pasta", "thursday"), "pasta");
+	EXPECT_EQ(fixKeyword.AddKeyword("knife", "monday"), "knife");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "thursday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "tuesday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("shrimp", "saturday"), "shrimp");
+	EXPECT_EQ(fixKeyword.AddKeyword("water", "saturday"), "water");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "monday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("onion", "wednesday"), "onion");
+	EXPECT_EQ(fixKeyword.AddKeyword("noodle", "saturday"), "noodle");
+	EXPECT_EQ(fixKeyword.AddKeyword("mall", "saturday"), "mall");
+	EXPECT_EQ(fixKeyword.AddKeyword("coke", "wednesday"), "coke");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "saturday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "tuesday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("garlic", "saturday"), "garlic");
+	EXPECT_EQ(fixKeyword.AddKeyword("pepper", "thursday"), "pepper");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "wednesday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("pizza", "monday"), "pizza");
+	EXPECT_EQ(fixKeyword.AddKeyword("home", "friday"), "home");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "sunday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("light", "friday"), "light");
+	EXPECT_EQ(fixKeyword.AddKeyword("sandwich", "thursday"), "sandwich");
+	EXPECT_EQ(fixKeyword.AddKeyword("keyboard", "tuesday"), "keyboard");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "friday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("tv", "monday"), "tv");
+	EXPECT_EQ(fixKeyword.AddKeyword("gym", "sunday"), "gym");
+	EXPECT_EQ(fixKeyword.AddKeyword("family", "tuesday"), "family");
+	EXPECT_EQ(fixKeyword.AddKeyword("beer", "sunday"), "beer");
+	EXPECT_EQ(fixKeyword.AddKeyword("orange", "saturday"), "orange");
+	EXPECT_EQ(fixKeyword.AddKeyword("restaurant", "monday"), "restaurant");
+	EXPECT_EQ(fixKeyword.AddKeyword("bread", "thursday"), "bread");
+}</span></pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

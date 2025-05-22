@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>fix_keyword.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+ï»¿#include "fix_keyword.h"
+
+using namespace std;
+
+<span style = "background-color:#dfd">void FixKeyword::input(string fileName) {</span>
+	// 500ê° ë°ì´í° ìë ¥
+<span style = "background-color:#dfd">	ifstream fin{ fileName };</span>
+
+	// íì¼ ìì¶ë ¥ ìë¬ì²ë¦¬
+<span style = "background-color:#dfd">	if (fin.is_open()) {
+		for (int i = 0; i &lt; INPUT_NUM; i++) {
+			string keyword, day;
+			fin &gt;&gt; keyword &gt;&gt; day;
+			string ret = AddKeyword(keyword, day);
+			std::cout &lt;&lt; ret &lt;&lt; "\n";
+		}
+	}</span>
+	else {
+<span style = "background-color:#dfd">		std::cerr &lt;&lt; "íì¼ ì´ê¸° ì¤í¨" &lt;&lt; std::endl;
+		return;</span>
+	}
+	// íì¼ ë«ê¸°
+<span style = "background-color:#dfd">	fin.close();
+}</span>
+
+<span style = "background-color:#dfd">string FixKeyword::AddKeyword(const string&amp; keyword, const string&amp; day) {
+	if (keyword.empty() || day.empty()) return "";</span>
+
+	// ìì¼
+<span style = "background-color:#dfd">	int dayName = GetDayName(day);</span>
+	// dayê° ìëª» ë¤ì´ì¨ ê²½ì° ìì¸ì²ë¦¬
+<span style = "background-color:#dfd">	if (dayName == -1) return "";</span>
+	// íì¼ or ì£¼ë§
+<span style = "background-color:#dfd">	int dayType = dayName &lt;= FRYDAY ? WEEKDAY : HOLIDAY;</span>
+
+	// ëªì¸ììë ìì§ë§, keywordì dayê° ì ëë¡ ë¤ì´ì¨ ê²½ì°ìë§ UZ++
+<span style = "background-color:#dfd">	UZ++;
+	double maxDayNamePoint = 0;
+	double maxDayTypePoint = 0;</span>
+
+	// ìë²½ HIT
+<span style = "background-color:#dfd">	bool perfectHitFlag = false;
+	perfectHitFlag = CheckPerfectHit(dayNamePointOfKeywordList[dayName], keyword, maxDayNamePoint);
+	perfectHitFlag = CheckPerfectHit(dayTypePointOfKeywordList[dayType], keyword, maxDayTypePoint);</span>
+
+	// ì ìê° 21ìµì ì´ê³¼íë ê²½ì° ì¬ë°°ì¹
+<span style = "background-color:#dfd">	bool rebasePointFlag = false;
+	if (UZ &gt;= MAX_UZ || maxDayNamePoint &gt;= MAX_UZ || maxDayTypePoint &gt;= MAX_UZ)</span>
+	{
+<span style = "background-color:#dfd">		RebasePoint();
+		rebasePointFlag = true;</span>
+	}
+<span style = "background-color:#dfd">	if (perfectHitFlag) return keyword;</span>
+
+	// ì°°ë¡ HIT
+<span style = "background-color:#dfd">	string hitKeyword = "";
+	hitKeyword = CheckChalddukHit(dayNamePointOfKeywordList[dayName], keyword);
+	if (hitKeyword != "") return hitKeyword;</span>
+
+<span style = "background-color:#dfd">	hitKeyword = CheckChalddukHit(dayTypePointOfKeywordList[dayType], keyword);
+	if (hitKeyword != "") return hitKeyword;</span>
+
+	// ìë²½ HIT, ì°°ë¡ HIT ëë¤ ìëê²½ì°.
+	// ëªì¸ìì ëªíí íê¸°ëì´ ìì§ ìì ê°ì¬ë ëµë³ ë°ì: ì¬ì ë ¬ì´ ë¨¼ì  ì¼ì´ëê³ , ê·¸ íì Keyword ì¶ê°ëë¯ë¡ 10 Point Keyword ì¶ê°.
+<span style = "background-color:#dfd">	if (rebasePointFlag) UZ++;
+	PushKeyword(dayNamePointOfKeywordList[dayName], keyword, UZ);
+	PushKeyword(dayTypePointOfKeywordList[dayType], keyword, UZ);</span>
+
+<span style = "background-color:#dfd">	return keyword;
+}</span>
+
+int FixKeyword::GetDayName(const string&amp; day)
+<span style = "background-color:#dfd">{
+	const string strDay[DAY_OF_WEEK] = { "monday","tuesday" ,"wednesday" ,"thursday" ,"friday","saturday" ,"sunday" };</span>
+
+<span style = "background-color:#dfd">	for (int i = 0; i &lt; DAY_OF_WEEK; i++)
+		if (strDay[i] == day)
+			return i;</span>
+
+<span style = "background-color:#dfd">	return -1;
+}</span>
+
+bool FixKeyword::CheckPerfectHit(vector&lt;PointOfKeyword&gt;&amp; KeywordList, const string&amp; keyword, double&amp; maxWeekBest)
+<span style = "background-color:#dfd">{</span>
+	// ììì  ê³ì°ì ìí´ point ê´ë ¨ ë³ìë¥¼ doubleíì¼ë¡ ë³ê²½
+<span style = "background-color:#dfd">	for (PointOfKeyword&amp; node : KeywordList) {
+		if (node.keyword == keyword) {
+			node.point += (node.point * 0.1);
+			maxWeekBest = node.point;
+			return true;</span>
+		}
+<span style = "background-color:#dfd">	}
+	return false;
+}</span>
+
+string FixKeyword::CheckChalddukHit(const vector&lt;PointOfKeyword&gt;&amp; KeywordList, const string&amp; keyword)
+<span style = "background-color:#dfd">{
+	for (PointOfKeyword node : KeywordList) {
+		if (GetSimiler(node.keyword, keyword)) {
+			return node.keyword;</span>
+		}
+<span style = "background-color:#dfd">	}
+	return "";
+}</span>
+
+void FixKeyword::RebasePoint()
+<span style = "background-color:#dfd">{
+	UZ = MAX_POINT_OF_KEYWORD_SIZE - 1;
+	for (int i = 0; i &lt; DAY_OF_WEEK; i++) {</span>
+		// ê°ì¤ì¹ê° í° ììëë¡ ì ë ¬ëì´ ìì¼ë¯ë¡ num-- íë©° ì ì ë¶ì¬.
+<span style = "background-color:#dfd">		int num = dayNamePointOfKeywordList[i].size();
+		for (PointOfKeyword&amp; node : dayNamePointOfKeywordList[i]) {
+			node.point = num;
+			num--;
+		}
+	}
+	for (int i = 0; i &lt; DAY_TYPE; i++) {
+		int num = dayTypePointOfKeywordList[i].size();
+		for (PointOfKeyword&amp; node : dayTypePointOfKeywordList[i]) {
+			node.point = num;
+			num--;
+		}
+	}
+}</span>
+
+void FixKeyword::PushKeyword(vector&lt;PointOfKeyword&gt;&amp; KeywordList, const string&amp; keyword, const double&amp; point)
+<span style = "background-color:#dfd">{</span>
+	// ì¼ë¨ ë£ì í, ê°ì¥ Pointê° ìì Keyword ì ê±°.
+<span style = "background-color:#dfd">	KeywordList.push_back({ keyword, point });
+	std::sort(KeywordList.begin(), KeywordList.end());</span>
+
+	// í ë²ì í ê°ì Keywordë§ ë¤ì´ì¤ê¸° ëë¬¸ì sizeê° 11ì ì´ê³¼íì§ ìì§ë§, ë§ì½ì ìí´ whileë¬¸ê³¼ &gt; ë¥¼ ì¬ì©.
+<span style = "background-color:#dfd">	while (KeywordList.size() &gt; MAX_POINT_OF_KEYWORD_SIZE) {
+		KeywordList.pop_back();
+	}
+}</span>
+
+// ì ì íì°
+<span style = "background-color:#dfd">bool FixKeyword::GetSimiler(const std::string&amp; a, const std::string&amp; b) {
+	if (a.empty() || b.empty()) return false;</span>
+
+<span style = "background-color:#dfd">	int max_len = std::max(a.length(), b.length());</span>
+	// ì ì¬ë ë¹ì¨ (1.0: ìì í ê°ì, 0.0: ì í ë¤ë¦)
+<span style = "background-color:#dfd">	double similarity = 1.0 - (double)CalulateDist(a, b) / (double)std::max(a.length(), b.length());
+	int score = 1 + static_cast&lt;int&gt;(similarity * 99);</span>
+
+<span style = "background-color:#dfd">	if (score &gt;= 80) return true;
+	return false;
+}</span>
+
+<span style = "background-color:#dfd">int FixKeyword::CalulateDist(const std::string&amp; a, const std::string&amp; b) {</span>
+	// ë ë²¤ìíì¸ìì ë¤ë¥¸ ìê³ ë¦¬ì¦ì¼ë¡ ë³ê²½ëë ê²½ì°ë¥¼ ëë¹íì¬ í¨ìë¥¼ í ë² ê°ì¸ì¤
+<span style = "background-color:#dfd">	return Levenshtein(a, b);
+}</span>
+
+// ë ë²¤ìíì¸ ê±°ë¦¬ ê³ì° ìê³ ë¦¬ì¦ (ë¬¸ìì´ ì ì¬ë ê²ì¬)
+<span style = "background-color:#dfd">int FixKeyword::Levenshtein(const std::string&amp; a, const std::string&amp; b) {
+	const size_t len_a = a.size();
+	const size_t len_b = b.size();</span>
+
+<span style = "background-color:#dfd">	std::vector&lt;std::vector&lt;int&gt;&gt; d(len_a + 1, std::vector&lt;int&gt;(len_b + 1));</span>
+
+<span style = "background-color:#dfd">	for (size_t i = 0; i &lt;= len_a; ++i) d[i][0] = i;
+	for (size_t j = 0; j &lt;= len_b; ++j) d[0][j] = j;</span>
+
+<span style = "background-color:#dfd">	for (size_t i = 1; i &lt;= len_a; ++i) {
+		for (size_t j = 1; j &lt;= len_b; ++j) {
+			if (a[i - 1] == b[j - 1])
+				d[i][j] = d[i - 1][j - 1];</span>
+			else
+<span style = "background-color:#dfd">				d[i][j] = 1 + std::min({ d[i - 1][j], d[i][j - 1], d[i - 1][j - 1] });
+		}
+	}
+	return d[len_a][len_b];
+}</span></pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

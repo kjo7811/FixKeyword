@@ -14,7 +14,7 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="테스트 파일">
-      <UniqueIdentifier>{e58caa94-d103-4acd-aae5-3ba5210e2663}</UniqueIdentifier>
+      <UniqueIdentifier>{ff3994c5-03ad-4e38-8281-51e17b8d0edc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -26,6 +26,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="keyword_weekday_500.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fix_keyword.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
